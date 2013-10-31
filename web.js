@@ -33,4 +33,5 @@ mongoose.connect(uristring, function (err, res) {
 	}
 });
 
-routes = require('./routes/usuario')(app);
+usuario = require('./routes/usuario')(app);
+lista = require('./routes/lista')(app);

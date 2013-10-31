@@ -31,8 +31,9 @@ module.exports = function(app) {
     console.log(req.body);
 
     var usuario = new Usuario({
-      nombreUsuario:    req.body.nombreUsuario,
-      fechaAlta:     	new Date(req.body.fechaAlta)
+      _id:    	req.body._id,
+      fechaAlta:new Date(req.body.fechaAlta),
+      lista: 	req.body.listas
     });
 
     usuario.save(function(err) {
@@ -64,16 +65,30 @@ module.exports = function(app) {
   };
   
   //DELETE - Delete a Usuario with specified ID
-  deleteUsuario = function(req, res) {
-    Usuario.findById(req.params.id, function(err, usuario) {
-      usuario.remove(function(err) {
-        if(!err) {
-    	console.log('Removed');
-        } else {
-    	console.log('ERROR: ' + err);
-        }
-      });
-    });
+  	deleteUsuario = function(req, res, next) {
+  		var id = req.params.id;
+    	Usuario.findById(id, function(err, usuario) {
+			if (err) {
+			  console.log(err);
+			  return next(err);
+			}
+	
+			if (!usuario) {
+			  return res.send('Invalid ID. (De algún otro lado la sacaste tú...)');
+			}
+    
+    		// Tenemos el producto, eliminemoslo
+			usuario.remove(onRemoved);
+    	});
+
+	    function onRemoved (err) {
+	    	if (err) {
+	    		console.log(err);
+	    		return next(err);
+	    	}
+	
+	    	return res.redirect('/');
+	    }
   };
   
   // Link routes and functions
