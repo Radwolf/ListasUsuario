@@ -1,0 +1,27 @@
+extends layout
+block header
+  h2 #{pageTitle}
+block content
+  table(border='1')
+    tr
+      th Nombre usuario
+      th Fecha alta
+      th Listas Compra
+    - if (usuarios)
+      - each usuario in usuarios
+        tr
+          td
+            a(href="/view/usuario/" + usuario._id.toString()) #{usuario._id}
+          td #{usuario.fechaAlta}
+          td 
+            if (usuario.listas.length > 0)
+              ul 
+                a(href="/view/usuario/" + usuario._id.toString() + "/listas") Todas las listas
+                each lista in usuario.listas
+                  li 
+                    a(href="/usuario/" + usuario._id.toString() + "/lista/" + lista._id) - #{lista.nombreLista}
+            else
+              ul
+                a(href="/view/lista") Añadir una lista
+  p
+    a(href='/view/usuario') Alta Usuario

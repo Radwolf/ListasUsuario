@@ -13,7 +13,7 @@ module.exports = function(app) {
   		}
   	});
   };
-
+  
   // GET - Return a Usuario with specified ID
   findById = function(req, res) {
     Usuario.findById(req.params.id, function(err, usuario) {
@@ -26,27 +26,34 @@ module.exports = function(app) {
   };
   
   // POST - Insert a new Usuario in the DB
-  addUsuario = function(req, res) {
-    console.log('POST');
-    console.log(req.body);
+  addUsuario = function(req, res, next) {
+	  // Obtenemos las variables y las validamos
+	  var nombreUsuario = req.body._id || '';
+	  var fechaAlta = new Date(req.body.fechaAlta);
+	  
+	  // Validemos que nombre 
+	  if (nombreUsuario === '') {
+		  console.log('ERROR: Campos vacios');
+		  return res.send('Hay campos vacíos, revisar');
+	  }
 
-    var usuario = new Usuario({
-      _id:    	req.body._id,
-      fechaAlta:new Date(req.body.fechaAlta),
-      lista: 	req.body.listas
-    });
+	  var usuario = new Usuario({
+		  _id:    	nombreUsuario,
+		  fechaAlta:fechaAlta
+	  });
 
-    usuario.save(function(err) {
-      if(!err) {
-        console.log('Created');
-      } else {
-        console.log('ERROR: ' + err);
-      }
-    });
-    res.send(usuario);
+	  usuario.save(function(err) {
+		  if(!err) {
+			  console.log('Created');
+		  } else {
+			  console.log('ERROR: ' + err);
+		  }
+	  });
+		  
+	  return res.send(usuario);
   };
   
-  //PUT - Update a register already exists
+  // PUT - Update a register already exists
   updateUsuario = function(req, res) {
     Usuario.findById(req.params.id, function(err, usuario) {
       usuario.nombreUsuario = req.body.nombreUsuario;
@@ -64,7 +71,7 @@ module.exports = function(app) {
     });
   };
   
-  //DELETE - Delete a Usuario with specified ID
+  // DELETE - Delete a Usuario with specified ID
   	deleteUsuario = function(req, res, next) {
   		var id = req.params.id;
     	Usuario.findById(id, function(err, usuario) {
@@ -87,7 +94,7 @@ module.exports = function(app) {
 	    		return next(err);
 	    	}
 	
-	    	return res.redirect('/');
+	    	return res.redirect('/view/usuarios');
 	    }
   };
   

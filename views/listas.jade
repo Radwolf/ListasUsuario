@@ -1,0 +1,21 @@
+extends layout
+block header
+  h2 #{pageTitle}
+block content
+  table(border='1')
+    tr
+      th Nombre lista
+      th Fecha alta
+      if(mostrarUsuario)
+        th Usuario
+    - if (listas)
+      - each lista in listas
+        tr
+          td
+            a(href="/lista/" + lista._id.toString()) #{lista.nombreLista}
+          td #{lista.fechaAlta}
+          if(mostrarUsuario)
+            td 
+              a(href="/usuario/" + lista.usuario) #{lista.usuario}
+  p
+    a(href='/view/lista') Alta lista

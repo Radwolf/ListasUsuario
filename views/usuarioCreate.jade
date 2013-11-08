@@ -1,0 +1,13 @@
+extends layout
+block header
+  h2 #{pageTitle}
+block content
+  form(action='/view/usuario', method='post')
+    p
+      label(for="_id") Nombre usuario:
+        input(type='text', name='_id')
+    p
+      label(for="fechaAlta") Fecha de alta:
+      input(type='text', name='fechaAlta', size=10)
+    p
+      input(type='submit', value='Guardar')

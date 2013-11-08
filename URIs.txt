@@ -1,0 +1,11 @@
+GETs
+
+## Usuario
+
+/usuarios --> Devuelve todos los usuarios
+/usuario/:id --> Devuelve el usuario con _id = :id
+/usuario/:id/listas --> Devuelve todas las listas del usuario con _id = :id
+
+## Lista
+
+/lista/:id --> Devuelve la lista con _id = :id

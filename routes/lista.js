@@ -17,6 +17,17 @@ module.exports = function(app) {
 		});
 	};
 
+	// GET - Return a Lista with specified ID
+	findById = function(req, res) {
+		Lista.findById(req.params.id, function(err, lista) {
+			if (!err) {
+				res.send(lista);
+			} else {
+				console.log('ERROR: ' + err);
+			}
+		});
+	};
+
 	// POST - Insert a new Lista in the DB
 	addLista = function(req, res) {
 		console.log('POST');
@@ -52,6 +63,7 @@ module.exports = function(app) {
 	};
 
 	app.get('/usuario/:id/listas', findAllListasByUsuario);
+	app.get('/lista/:id', findById);
 	app.post('/usuario/:id/lista', addLista);
 
 };
